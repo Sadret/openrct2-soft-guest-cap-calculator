@@ -21,7 +21,7 @@ At any moment, if you want to get the current cap right now, you can click on th
 
 ## Planned features and why they cannot be implemented right now
 
-- Give an option to include or exclude broken or crashed rides. This requires the plugin API to provide information about broken or crashed rides.
+- Give an option to include or exclude broken or crashed rides. ~~This requires the plugin API to provide information about broken or crashed rides.~~ This could already work, but it is not super important, see section above.
 - Adjust the calculation for "harder guest generation" scenarios, preferably automatically. For this to work, the API needs to provide information about the segment length of the track. If this calculation should be enabled automatically, it needs to be possible to detect those scenarios.
 - Bind a hotkey to trigger an instant notification. This requires the plugin API to bind hotkeys.
 - Give the soft guest cap as a fraction of the required amount of guests. E.g. "The soft guest cap has increased to 1200 guests, which is 75% of the required guests." For this to work, the API needs to provide information about the scenarios objective.
