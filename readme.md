@@ -6,6 +6,7 @@ This OpenRCT2 plugin calculates the soft guest cap for your park and notifies yo
 
 1. Make sure that your OpenRCT2 version is up-to-date (`v0.3.0` or newer)
 2. Download the `soft-guest-cap-calculator.js` file and save it in your OpenRCT2 `plugin` folder.\
+(Right-click [here](https://raw.githubusercontent.com/Sadret/openrct2-soft-guest-cap-calculator/master/soft-guest-cap-calculator.js) and select "save as" or similar).\
 On Windows, this is usually at `C:Users\{User}\Documents\OpenRCT2\plugin`.
 3. Start OpenRCT2. The plugin should immediately start working.
 
