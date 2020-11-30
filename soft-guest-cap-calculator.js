@@ -1,3 +1,4 @@
+/// <reference path="../openrct2.d.ts" />
 // src/openrct2/ride/RideData.cpp (legacy)
 var rideBonusValue = [
 	85, // 00 Spiral Roller coaster
@@ -211,12 +212,76 @@ var OpenRCT2RideTypeToRCT2RideType = function(openrct2Type) {
 	}
 };
 
-var calculateSoftGuestCap = function() {
+// src/openrct2/ride/Ride.h
+const RIDE_LIFECYCLE_ON_TRACK = 1 << 0;
+const RIDE_LIFECYCLE_TESTED = 1 << 1;
+const RIDE_LIFECYCLE_TEST_IN_PROGRESS = 1 << 2;
+const RIDE_LIFECYCLE_NO_RAW_STATS = 1 << 3;
+const RIDE_LIFECYCLE_PASS_STATION_NO_STOPPING = 1 << 4;
+const RIDE_LIFECYCLE_ON_RIDE_PHOTO = 1 << 5;
+const RIDE_LIFECYCLE_BREAKDOWN_PENDING = 1 << 6;
+const RIDE_LIFECYCLE_BROKEN_DOWN = 1 << 7;
+const RIDE_LIFECYCLE_DUE_INSPECTION = 1 << 8;
+const RIDE_LIFECYCLE_QUEUE_FULL = 1 << 9;
+const RIDE_LIFECYCLE_CRASHED = 1 << 10;
+const RIDE_LIFECYCLE_HAS_STALLED_VEHICLE = 1 << 11;
+const RIDE_LIFECYCLE_EVER_BEEN_OPENED = 1 << 12;
+const RIDE_LIFECYCLE_MUSIC = 1 << 13;
+const RIDE_LIFECYCLE_INDESTRUCTIBLE = 1 << 14;
+const RIDE_LIFECYCLE_INDESTRUCTIBLE_TRACK = 1 << 15;
+const RIDE_LIFECYCLE_CABLE_LIFT_HILL_COMPONENT_USED = 1 << 16;
+const RIDE_LIFECYCLE_CABLE_LIFT = 1 << 17;
+const RIDE_LIFECYCLE_NOT_CUSTOM_DESIGN = 1 << 18;   // Used for the Award for Best Custom-designed Rides
+const RIDE_LIFECYCLE_SIX_FLAGS_DEPRECATED = 1 << 19; // Not used anymore
+
+// define here the bitmask that catches situations when a ride is not counted
+// flags taken from CalculateSuggestedMaxGuests() in src/openrct2/world/Park.cpp
+const RIDE_LIFECYCLE_MASK_DEFECT = (RIDE_LIFECYCLE_BROKEN_DOWN | RIDE_LIFECYCLE_CRASHED)
+
+var parkHasHardGuestCalculation = function() {
+	return park.getFlag("difficultGuestGeneration");
+}
+
+var rideIsQualifiedForBonusStub = function(ride, ignoreBrokenDownRides) {
+	ignoreBrokenDownRides = (typeof ignoreBrokenDownRides !== 'undefined') ?  ignoreBrokenDownRides : false;
+	ride = map.rides[0];
+	var lifecycleFlags = ride.lifecycleFlags;
+	var rideIsFunctioning = !(lifecycleFlags & RIDE_LIFECYCLE_MASK_DEFECT);
+	return (
+		(!ignoreBrokenDownRides || rideIsFunctioning) &&
+		(lifecycleFlags & RIDE_LIFECYCLE_TESTED) &&
+		// // mapping between ride type number and properties needs to be implemented:
+		// ride type has track &&
+		// ride type has data logging &&
+		// // segment length (length between first two stations)
+		// //  could only be implemented by path finidng over all track elements in the map
+		//  (segment length >= 60000 << 16) &&
+		ride.excitement >= 600
+	);
+}
+
+var adjustSoftGuestCapForHardGuestGenerationParks = function(defaultSoftGuestCap, ignoreBrokenDownRides) {
+	ignoreBrokenDownRides = (typeof ignoreBrokenDownRides !== 'undefined') ?  ignoreBrokenDownRides : false;
+	var softGuestCap = Math.min(1000, defaultSoftGuestCap);
+	for (var idx = 0; idx < map.rides.length; idx++) {
+		var ride = map.rides[idx];
+		if(rideIsQualifiedForBonusStub(ride)) {
+			var type = OpenRCT2RideTypeToRCT2RideType(ride.type);
+			softGuestCap += 2 * rideBonusValue[type];
+		}
+	}
+	return softGuestCap;
+}
+
+var calculateSoftGuestCap = function(ignoreBrokenDownRides) {
+	ignoreBrokenDownRides = (typeof ignoreBrokenDownRides !== 'undefined') ?  ignoreBrokenDownRides : false;
 	var sgc = 0;
 	for (var idx = 0; idx < map.rides.length; idx++) {
 		var ride = map.rides[idx];
 		var type = OpenRCT2RideTypeToRCT2RideType(ride.type);
-		if (ride.status === "open")
+		var lifecycleFlags = ride.lifecycleFlags;
+		var rideIsFunctioning = !(lifecycleFlags & RIDE_LIFECYCLE_MASK_DEFECT);
+		if (ride.status === "open" && (!ignoreBrokenDownRides ||  rideIsFunctioning))
 			sgc += rideBonusValue[type];
 	}
 	return sgc;
@@ -225,13 +290,17 @@ var calculateSoftGuestCap = function() {
 var notify = function(sgc, wording) {
 	park.postMessage({
 		type: "blank",
-		text: "soft guest cap " + wording + " " + sgc + " guests",
+		text: "soft guest cap " + wording + " " + sgc + " guests" + ((scenario.objective.type == "guestsBy") ? (" ("+ Math.round(100*sgc/scenario.objective.guests) +"%)") : ""),
 	});
+	
 }
 
 function main() {
 	ui.registerMenuItem("Calculate soft guest cap", function() {
 		notify(calculateSoftGuestCap(), "is");
+	});
+	ui.registerMenuItem("Calculate soft guest cap (only functioning rides)", function() {
+		notify(calculateSoftGuestCap(true), "is");
 	});
 	var sgc = 0;
 	context.subscribe("interval.day", function() {
