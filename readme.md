@@ -1,36 +1,56 @@
 # OpenRCT2 Soft Guest Cap Calculator
 
-This OpenRCT2 plugin calculates the soft guest cap for your park and notifies you if it changes.
+This OpenRCT2 plugin calculates the soft guest cap for your park and automatically notifies you if it changes.
+
+## What is the soft guest cap?
+
+Every park has a suggested guest maximum, which is commonly "called soft guest cap". If the amount of guests in your park reaches this value, guest spawning will be reduced significantly, which makes it hard to increase the number of guests in your park beyond the cap.
+
+The value depends on the type and number of attractions and stalls that you have built and opened in your park.\
+For detailed information, look at [this guide by Deurklink](https://forums.openrct2.org/topic/2861-guide-when-and-how-do-guests-spawn/).
 
 ## Installation
 
-1. Make sure that your OpenRCT2 version is up-to-date (`v0.3.0` or newer)
-2. Download the `soft-guest-cap-calculator.js` file and save it in your OpenRCT2 `plugin` folder.\
-(Right-click [here](https://raw.githubusercontent.com/Sadret/openrct2-soft-guest-cap-calculator/master/soft-guest-cap-calculator.js) and select "save as" or similar).\
+1. Make sure that your OpenRCT2 version is up-to-date. You need at least version `0.3.4` (as of June 2021: not yet released) or a recent development version.
+2. Go to the [releases](https://github.com/Sadret/openrct2-soft-guest-cap-calculator/releases) page and download the `soft-guest-cap-calculator-2.0.0.js` file from the latest release. Save it in the `plugin` subfolder of your OpenRCT2 user directory.\
 On Windows, this is usually at `C:Users\{User}\Documents\OpenRCT2\plugin`.
-3. Start OpenRCT2. The plugin should immediately start working.
+3. Start OpenRCT2 and open a scenario.
 
 ## Usage
 
-The plugin calculates the soft guest cap as the sum of the bonus values of all open rides. This is actually not totally accurate:
-- Broken or crashed rides do not count into the cap. I personally think this is not a problem at all, as you generally want to know the soft guest cap assuming everything is open and running. If you still want to see the slightly guest cap after subtracting the broken rides, there is a menu to show the current value.
-- If "harder guest generation" is enabled for the scenario, the formula is different. The cap for boring rides is capped at 1000 guests, but exciting rides give another cap boost. (See below for more detail.)
+Each in-game day, the plug-in queries the soft guest cap from the game. If it has changed since the last time, the user will be notified by an in-game message.\
+The user also has the option to use a hotkey (default: `C`) to instantly trigger this notification.
 
-The plugin automatically detects when the soft guest cap changes and gives a notification through the in-game message system. The soft guest cap is calculated every in-game day, so it might take a moment until you get a notification.\
-At any moment, if you want to get the current cap right now, you can click on the map icon in the upper left toolbar and select `Calculate soft guest cap`. This will immediately trigger a new notification.
+## Configuration
 
-## Planned features and why they cannot be implemented right now
+To open the configuration window of this plug-in, click on "Soft Guest Cap Calculator" in the map menu in the upper toolbar of OpenRCT2. Here you have the following options:
 
-- Adjust the calculation for "harder guest generation" scenarios, preferably automatically. Whether this value is needed, is read from the flags of the park. Also code for the calucation of this adjusted soft guest cap has been implemented. However, this code is not yet used as it is not yet accurate. The reason is that the adjusted guest cap adds a bonus for good rides. Three of the factors do not have an easy API. Two of them are flags of the ride type. This could be implemented by hard-coding a mapping between flag type and the value of the flag. See: OpenRCT2/OpenRCT2#12706 The third factor is the length between the first and the second station. At the moment, the internal API know this value. The plugins API can only indirectly provide this value by path-finding from one station to the other and determining the length of this track segment. See OpenRCT2/OpenRCT2#12705
-- Bind a hotkey to trigger an instant notification. This requires the plugin API to bind hotkeys. A feature like that has been removed: OpenRCT2/OpenRCT2#12704 For now, only the map menu provides a such a trigger.
+- "Notify on increase" [enabled by default]: If enabled, the plug-in automatically notifies you when the soft guest cap increases.
+- "Notify on decrease" [disabled by default]: If enabled, the plug-in automatically notifies you when the soft guest cap decreases.
+- "Notify now": immediately sends a soft guest cap notification.
 
+The configuration will be saved in the `plugin.store.json` file in your OpenRCT2 user directory.
 
-## Newly added features and how they have been hacked in
+If you want to change the hotkey (default: `C`), go to the 'Controls and Interface' tab of OpenRCT2's 'Options' window.
 
-The API has evolved since the creation of this plugin. This allowed some additional features. See: OpenRCT2/OpenRCT2#12703
+## Notes
 
-- Give an option to include or exclude broken or crashed rides. ~~This requires the plugin API to provide information about broken or crashed rides.~~ The API for that is not pretty. The information can be extracted from the lifecycle flags of each ride. The definition of the flags has been extracted from the game's code. Using bitwise binary operations, the information is read. At the moment, the soft guest cap that does exclude broken rides, can only be triggered from the menu. This value is not yet watched automatically.
-- Give the soft guest cap as a fraction of the required amount of guests. E.g. "The soft guest cap has increased to 1200 guests, which is 75% of the required guests." There is (now?) an API for that: `scenario.objective.guests`. In scenarios with `scenario.objective.type` set to `"guestsBy"`, the percentage is shown in addition to the absolute value.
+The automatic notification is only triggered if the cap increases above (decreases below) *the value that you was last notified about*.\
+This means that with default settings, if you close a ride and reopen it, you will get no notifications. The main idea behind this behaviour is to prevent message spamming due to broken (or crashed) rides, which affect the soft guest cap.\
+If you actually close or destroy rides and want to "reset" the plug-in, just press `C` once to trigger a notification.
 
-## Contribution
- If you have an idea to improve this plugin, feel free to open an issue. Or a pull-request as @Mar-Koeh did.
+## Support Me
+
+If you find any bugs or if you have any ideas for improvements, you can open an issue on GitHub or contact me on Discord: Sadret#2502.
+
+If you like this plug-in, please leave a star on GitHub.
+
+If you really want to support me, you can [buy me a coffee](https://www.BuyMeACoffee.com/SadretGaming).
+
+## Thanks to
+- @Mar-Koeh: Current guest cap as percentage of needed guests to meet scenario objective.
+
+## Copyright and License
+
+Copyright (c) 2020-2021 Sadret\
+The OpenRCT2 plug-in "Soft Guest Cap Calculator" is licensed under the GNU General Public License version 3.

@@ -1,325 +1,122 @@
-/// <reference path="../openrct2.d.ts" />
-// src/openrct2/ride/RideData.cpp (legacy)
-var rideBonusValue = [
-	85, // 00 Spiral Roller coaster
-	90, // 01 Stand Up Coaster
-	90, // 02 Suspended Swinging
-	100, // 03 Inverted
-	60, // 04 Steel Mini Coaster
-	50, // 05 Mini Railway
-	60, // 06 Monorail
-	50, // 07 Mini Suspended Coaster
-	40, // 08 Boat Hire
-	55, // 09 Wooden Wild Mine/Mouse
-	60, // 0a Steeplechase/Motorbike/Soap
-	50, // 0b Car Ride
-	65, // 0c Launched Freefall
-	75, // 0d Bobsleigh Coaster
-	45, // 0e Observation Tower
-	95, // 0f Looping Roller Coaster
-	55, // 10 Dinghy Slide
-	85, // 11 Mine Train Coaster
-	55, // 12 Chairlift
-	100, // 13 Corkscrew Roller Coaster
-	40, // 14 Maze
-	40, // 15 Spiral Slide
-	55, // 16 Go Karts
-	65, // 17 Log Flume
-	70, // 18 River Rapids
-	35, // 19 Dodgems
-	35, // 1a Pirate Ship
-	35, // 1b Swinging Inverter Ship
-	15, // 1c Food Stall
-	15, // 1d (none)
-	15, // 1e Drink Stall
-	15, // 1f (none)
-	15, // 20 Shop (all types)
-	45, // 21 Merry Go Round
-	15, // 22 Balloon Stall (maybe)
-	15, // 23 Information Kiosk
-	5, // 24 Bathroom
-	45, // 25 Ferris Wheel
-	45, // 26 Motion Simulator
-	45, // 27 3D Cinema
-	55, // 28 Topspin
-	30, // 29 Space Rings
-	70, // 2a Reverse Freefall Coaster
-	45, // 2b Elevator
-	95, // 2c Vertical Drop Roller Coaster
-	5, // 2d ATM
-	40, // 2e Twist
-	22, // 2f Haunted House
-	5, // 30 First Aid
-	39, // 31 Circus Show
-	50, // 32 Ghost Train
-	120, // 33 Twister Roller Coaster
-	105, // 34 Wooden Roller Coaster
-	65, // 35 Side-Friction Roller Coaster
-	55, // 36 Wild Mouse
-	100, // 37 Multi Dimension Coaster
-	100, // 38 (none)
-	100, // 39 Flying Roller Coaster
-	100, // 3a (none)
-	50, // 3b Virginia Reel
-	65, // 3c Splash Boats
-	45, // 3d Mini Helicopters
-	100, // 3e Lay-down Roller Coaster
-	60, // 3f Suspended Monorail
-	100, // 40 (none)
-	65, // 41 Reverser Roller Coaster
-	35, // 42 Heartline Twister Roller Coaster
-	23, // 43 Mini Golf
-	120, // 44 Giga Coaster
-	45, // 45 Roto-Drop
-	35, // 46 Flying Saucers
-	22, // 47 Crooked House
-	45, // 48 Monorail Cycles
-	80, // 49 Compact Inverted Coaster
-	60, // 4a Water Coaster
-	70, // 4b Air Powered Vertical Coaster
-	55, // 4c Inverted Hairpin Coaster
-	35, // 4d Magic Carpet
-	40, // 4e Submarine Ride
-	65, // 4f River Rafts
-	15, // 50 (none)
-	45, // 51 Enterprise
-	15, // 52 (none)
-	15, // 53 (none)
-	15, // 54 (none)
-	100, // 55 (none)
-	75, // 56 Inverted Impulse Coaster
-	60, // 57 Mini Roller Coaster
-	70, // 58 Mine Ride
-	55, // 59 (none)
-	55, // 5a LIM Launched Roller Coaster
-];
+/*****************************************************************************
+ * Copyright (c) 2020-2021 Sadret
+ *
+ * The OpenRCT2 plug-in "Soft Guest Cap Calculator" is licensed
+ * under the GNU General Public License version 3.
+ *****************************************************************************/
 
-// src/openrct2/ride/Ride.h
-var RIDE_TYPE_SPIRAL_ROLLER_COASTER = 0;
-var RIDE_TYPE_STAND_UP_ROLLER_COASTER = 1;
-var RIDE_TYPE_SUSPENDED_SWINGING_COASTER = 2;
-var RIDE_TYPE_INVERTED_ROLLER_COASTER = 3;
-var RIDE_TYPE_JUNIOR_ROLLER_COASTER = 4;
-var RIDE_TYPE_MINIATURE_RAILWAY = 5;
-var RIDE_TYPE_MONORAIL = 6;
-var RIDE_TYPE_MINI_SUSPENDED_COASTER = 7;
-var RIDE_TYPE_BOAT_HIRE = 8;
-var RIDE_TYPE_WOODEN_WILD_MOUSE = 9;
-var RIDE_TYPE_STEEPLECHASE = 10;
-var RIDE_TYPE_CAR_RIDE = 11;
-var RIDE_TYPE_LAUNCHED_FREEFALL = 12;
-var RIDE_TYPE_BOBSLEIGH_COASTER = 13;
-var RIDE_TYPE_OBSERVATION_TOWER = 14;
-var RIDE_TYPE_LOOPING_ROLLER_COASTER = 15;
-var RIDE_TYPE_DINGHY_SLIDE = 16;
-var RIDE_TYPE_MINE_TRAIN_COASTER = 17;
-var RIDE_TYPE_CHAIRLIFT = 18;
-var RIDE_TYPE_CORKSCREW_ROLLER_COASTER = 19;
-var RIDE_TYPE_MAZE = 20;
-var RIDE_TYPE_SPIRAL_SLIDE = 21;
-var RIDE_TYPE_GO_KARTS = 22;
-var RIDE_TYPE_LOG_FLUME = 23;
-var RIDE_TYPE_RIVER_RAPIDS = 24;
-var RIDE_TYPE_DODGEMS = 25;
-var RIDE_TYPE_SWINGING_SHIP = 26;
-var RIDE_TYPE_SWINGING_INVERTER_SHIP = 27;
-var RIDE_TYPE_FOOD_STALL = 28;
-var RIDE_TYPE_ = 29;
-var RIDE_TYPE_DRINK_STALL = 30;
-var RIDE_TYPE_ = 31;
-var RIDE_TYPE_SHOP = 32;
-var RIDE_TYPE_MERRY_GO_ROUND = 33;
-var RIDE_TYPE_ = 34;
-var RIDE_TYPE_INFORMATION_KIOSK = 35;
-var RIDE_TYPE_TOILETS = 36;
-var RIDE_TYPE_FERRIS_WHEEL = 37;
-var RIDE_TYPE_MOTION_SIMULATOR = 38;
-var RIDE_TYPE_ = 39;
-var RIDE_TYPE_TOP_SPIN = 40;
-var RIDE_TYPE_SPACE_RINGS = 41;
-var RIDE_TYPE_REVERSE_FREEFALL_COASTER = 42;
-var RIDE_TYPE_LIFT = 43;
-var RIDE_TYPE_VERTICAL_DROP_ROLLER_COASTER = 44;
-var RIDE_TYPE_CASH_MACHINE = 45;
-var RIDE_TYPE_TWIST = 46;
-var RIDE_TYPE_HAUNTED_HOUSE = 47;
-var RIDE_TYPE_FIRST_AID = 48;
-var RIDE_TYPE_CIRCUS = 49;
-var RIDE_TYPE_GHOST_TRAIN = 50;
-var RIDE_TYPE_TWISTER_ROLLER_COASTER = 51;
-var RIDE_TYPE_WOODEN_ROLLER_COASTER = 52;
-var RIDE_TYPE_SIDE_FRICTION_ROLLER_COASTER = 53;
-var RIDE_TYPE_STEEL_WILD_MOUSE = 54;
-var RIDE_TYPE_MULTI_DIMENSION_ROLLER_COASTER = 55;
-var RIDE_TYPE_MULTI_DIMENSION_ROLLER_COASTER_ALT = 56;
-var RIDE_TYPE_FLYING_ROLLER_COASTER = 57;
-var RIDE_TYPE_FLYING_ROLLER_COASTER_ALT = 58;
-var RIDE_TYPE_VIRGINIA_REEL = 59;
-var RIDE_TYPE_SPLASH_BOATS = 60;
-var RIDE_TYPE_MINI_HELICOPTERS = 61;
-var RIDE_TYPE_LAY_DOWN_ROLLER_COASTER = 62;
-var RIDE_TYPE_SUSPENDED_MONORAIL = 63;
-var RIDE_TYPE_LAY_DOWN_ROLLER_COASTER_ALT = 64;
-var RIDE_TYPE_REVERSER_ROLLER_COASTER = 65;
-var RIDE_TYPE_HEARTLINE_TWISTER_COASTER = 66;
-var RIDE_TYPE_MINI_GOLF = 67;
-var RIDE_TYPE_GIGA_COASTER = 68;
-var RIDE_TYPE_ROTO_DROP = 69;
-var RIDE_TYPE_FLYING_SAUCERS = 70;
-var RIDE_TYPE_CROOKED_HOUSE = 71;
-var RIDE_TYPE_MONORAIL_CYCLES = 72;
-var RIDE_TYPE_COMPACT_INVERTED_COASTER = 73;
-var RIDE_TYPE_WATER_COASTER = 74;
-var RIDE_TYPE_AIR_POWERED_VERTICAL_COASTER = 75;
-var RIDE_TYPE_INVERTED_HAIRPIN_COASTER = 76;
-var RIDE_TYPE_MAGIC_CARPET = 77;
-var RIDE_TYPE_SUBMARINE_RIDE = 78;
-var RIDE_TYPE_RIVER_RAFTS = 79;
-var RIDE_TYPE_ = 80;
-var RIDE_TYPE_ENTERPRISE = 81;
-var RIDE_TYPE_ = 82;
-var RIDE_TYPE_ = 83;
-var RIDE_TYPE_ = 84;
-var RIDE_TYPE_ = 85;
-var RIDE_TYPE_INVERTED_IMPULSE_COASTER = 86;
-var RIDE_TYPE_MINI_ROLLER_COASTER = 87;
-var RIDE_TYPE_MINE_RIDE = 88;
-var RIDE_TYPE_ = 89;
-var RIDE_TYPE_LIM_LAUNCHED_ROLLER_COASTER = 90;
-var RIDE_TYPE_HYPERCOASTER = 91;
-var RIDE_TYPE_HYPER_TWISTER = 92;
-var RIDE_TYPE_MONSTER_TRUCKS = 93;
-var RIDE_TYPE_SPINNING_WILD_MOUSE = 94;
-var RIDE_TYPE_CLASSIC_MINI_ROLLER_COASTER = 95;
-var RIDE_TYPE_COUNT = 96;
+/// <reference path="./../../openrct2.d.ts" />
 
-// src/openrct2/rct2/RCT2.cpp
-var OpenRCT2RideTypeToRCT2RideType = function(openrct2Type) {
-	switch (openrct2Type) {
-		case RIDE_TYPE_HYPERCOASTER:
-			return RIDE_TYPE_CORKSCREW_ROLLER_COASTER;
-		case RIDE_TYPE_CLASSIC_MINI_ROLLER_COASTER:
-			return RIDE_TYPE_JUNIOR_ROLLER_COASTER;
-		case RIDE_TYPE_MONSTER_TRUCKS:
-			return RIDE_TYPE_CAR_RIDE;
-		case RIDE_TYPE_HYPER_TWISTER:
-			return RIDE_TYPE_TWISTER_ROLLER_COASTER;
-		case RIDE_TYPE_SPINNING_WILD_MOUSE:
-			return RIDE_TYPE_STEEL_WILD_MOUSE;
+var notifyOnIncrease = context.sharedStorage.get("soft_guest_cap_calculator.notifyOnIncrease", true);
+var notifyOnDecrease = context.sharedStorage.get("soft_guest_cap_calculator.notifyOnDecrease", false);
 
-		default:
-			return openrct2Type;
-	}
-};
+var last = 0;
 
-// src/openrct2/ride/Ride.h
-const RIDE_LIFECYCLE_ON_TRACK = 1 << 0;
-const RIDE_LIFECYCLE_TESTED = 1 << 1;
-const RIDE_LIFECYCLE_TEST_IN_PROGRESS = 1 << 2;
-const RIDE_LIFECYCLE_NO_RAW_STATS = 1 << 3;
-const RIDE_LIFECYCLE_PASS_STATION_NO_STOPPING = 1 << 4;
-const RIDE_LIFECYCLE_ON_RIDE_PHOTO = 1 << 5;
-const RIDE_LIFECYCLE_BREAKDOWN_PENDING = 1 << 6;
-const RIDE_LIFECYCLE_BROKEN_DOWN = 1 << 7;
-const RIDE_LIFECYCLE_DUE_INSPECTION = 1 << 8;
-const RIDE_LIFECYCLE_QUEUE_FULL = 1 << 9;
-const RIDE_LIFECYCLE_CRASHED = 1 << 10;
-const RIDE_LIFECYCLE_HAS_STALLED_VEHICLE = 1 << 11;
-const RIDE_LIFECYCLE_EVER_BEEN_OPENED = 1 << 12;
-const RIDE_LIFECYCLE_MUSIC = 1 << 13;
-const RIDE_LIFECYCLE_INDESTRUCTIBLE = 1 << 14;
-const RIDE_LIFECYCLE_INDESTRUCTIBLE_TRACK = 1 << 15;
-const RIDE_LIFECYCLE_CABLE_LIFT_HILL_COMPONENT_USED = 1 << 16;
-const RIDE_LIFECYCLE_CABLE_LIFT = 1 << 17;
-const RIDE_LIFECYCLE_NOT_CUSTOM_DESIGN = 1 << 18;   // Used for the Award for Best Custom-designed Rides
-const RIDE_LIFECYCLE_SIX_FLAGS_DEPRECATED = 1 << 19; // Not used anymore
-
-// define here the bitmask that catches situations when a ride is not counted
-// flags taken from CalculateSuggestedMaxGuests() in src/openrct2/world/Park.cpp
-const RIDE_LIFECYCLE_MASK_DEFECT = (RIDE_LIFECYCLE_BROKEN_DOWN | RIDE_LIFECYCLE_CRASHED)
-
-var parkHasHardGuestCalculation = function() {
-	return park.getFlag("difficultGuestGeneration");
+var prepareNotify = function(forceNotify) {
+	var sgc = park.suggestedGuestMaximum;
+	if (sgc > last && notifyOnIncrease)
+		return notify("increased to", sgc);
+	if (sgc < last && notifyOnDecrease)
+		return notify("decreased to", sgc);
+	if (sgc === last && forceNotify)
+		return notify("is", sgc);
 }
 
-var rideIsQualifiedForBonusStub = function(ride, ignoreBrokenDownRides) {
-	ignoreBrokenDownRides = (typeof ignoreBrokenDownRides !== 'undefined') ?  ignoreBrokenDownRides : false;
-	ride = map.rides[0];
-	var lifecycleFlags = ride.lifecycleFlags;
-	var rideIsFunctioning = !(lifecycleFlags & RIDE_LIFECYCLE_MASK_DEFECT);
-	return (
-		(!ignoreBrokenDownRides || rideIsFunctioning) &&
-		(lifecycleFlags & RIDE_LIFECYCLE_TESTED) &&
-		// // mapping between ride type number and properties needs to be implemented:
-		// ride type has track &&
-		// ride type has data logging &&
-		// // segment length (length between first two stations)
-		// //  could only be implemented by path finidng over all track elements in the map
-		//  (segment length >= 60000 << 16) &&
-		ride.excitement >= 600
-	);
-}
-
-var adjustSoftGuestCapForHardGuestGenerationParks = function(defaultSoftGuestCap, ignoreBrokenDownRides) {
-	ignoreBrokenDownRides = (typeof ignoreBrokenDownRides !== 'undefined') ?  ignoreBrokenDownRides : false;
-	var softGuestCap = Math.min(1000, defaultSoftGuestCap);
-	for (var idx = 0; idx < map.rides.length; idx++) {
-		var ride = map.rides[idx];
-		if(rideIsQualifiedForBonusStub(ride)) {
-			var type = OpenRCT2RideTypeToRCT2RideType(ride.type);
-			softGuestCap += 2 * rideBonusValue[type];
-		}
-	}
-	return softGuestCap;
-}
-
-var calculateSoftGuestCap = function(ignoreBrokenDownRides) {
-	ignoreBrokenDownRides = (typeof ignoreBrokenDownRides !== 'undefined') ?  ignoreBrokenDownRides : false;
-	var sgc = 0;
-	for (var idx = 0; idx < map.rides.length; idx++) {
-		var ride = map.rides[idx];
-		var type = OpenRCT2RideTypeToRCT2RideType(ride.type);
-		var lifecycleFlags = ride.lifecycleFlags;
-		var rideIsFunctioning = !(lifecycleFlags & RIDE_LIFECYCLE_MASK_DEFECT);
-		if (ride.status === "open" && (!ignoreBrokenDownRides ||  rideIsFunctioning))
-			sgc += rideBonusValue[type];
-	}
-	return sgc;
-};
-
-var notify = function(sgc, wording) {
+var notify = function(wording, sgc) {
+	var text = "soft guest cap " + wording + " " + sgc;
+	if (scenario.objective.type === "guestsBy")
+		text += " (" + Math.floor(100 * sgc / scenario.objective.guests) + "%)";
 	park.postMessage({
 		type: "blank",
-		text: "soft guest cap " + wording + " " + sgc + " guests" + ((scenario.objective.type == "guestsBy") ? (" ("+ Math.round(100*sgc/scenario.objective.guests) +"%)") : ""),
+		text: text,
 	});
-	
+	last = sgc;
 }
 
-function main() {
-	ui.registerMenuItem("Calculate soft guest cap", function() {
-		notify(calculateSoftGuestCap(), "is");
-	});
-	ui.registerMenuItem("Calculate soft guest cap (only functioning rides)", function() {
-		notify(calculateSoftGuestCap(true), "is");
-	});
-	var sgc = 0;
-	context.subscribe("interval.day", function() {
-		var calc = calculateSoftGuestCap();
-		if (sgc == calc)
-			return;
-		if (sgc < calc)
-			notify(calc, "increased to");
-		else
-			notify(calc, "decreased to");
-		sgc = calc;
+var handle = undefined;
+var openWindow = function() {
+	if (handle !== undefined)
+		return;
+	handle = ui.openWindow({
+		classification: "soft-guest-cap-calculator",
+		width: 128,
+		height: 92,
+		title: "SGC - Options",
+		onClose: function() {
+			handle = undefined;
+		},
+		widgets: [{
+			type: "checkbox",
+			text: "Notify on increase",
+			isChecked: notifyOnIncrease,
+			onChange: function(isChecked) {
+				notifyOnIncrease = isChecked;
+				context.sharedStorage.set("soft_guest_cap_calculator.notifyOnIncrease", notifyOnIncrease);
+			},
+			x: 5,
+			y: 20,
+			width: 118,
+			height: 12,
+		}, {
+			type: "checkbox",
+			text: "Notify on decrease",
+			isChecked: notifyOnDecrease,
+			onChange: function(isChecked) {
+				notifyOnDecrease = isChecked;
+				context.sharedStorage.set("soft_guest_cap_calculator.notifyOnDecrease", notifyOnDecrease);
+			},
+			x: 5,
+			y: 36,
+			width: 118,
+			height: 12,
+		}, {
+			type: "button",
+			text: "Notify now",
+			onClick: function() {
+				prepareNotify(true);
+			},
+			x: 5,
+			y: 57,
+			width: 118,
+			height: 14,
+		}, {
+			type: "label",
+			text: "(Default hotkey: C)",
+			x: 5,
+			y: 74,
+			width: 118,
+			height: 12,
+		}],
 	});
 }
 
 registerPlugin({
-	name: 'soft guest cap calculator',
-	version: '1.0',
-	authors: ['Sadret'],
-	type: 'local',
-	licence: 'MIT',
-	main: main,
+	name: "soft guest cap calculator",
+	version: "2.0.0",
+	authors: ["Sadret", "Mar-Koeh"],
+	type: "local",
+	licence: "GPL-3.0",
+	minApiVersion: 29,
+	main: function() {
+		ui.registerShortcut({
+			id: "sgc.notify",
+			text: "[SGC] Soft guest cap",
+			bindings: ["C"],
+			callback: function() {
+				prepareNotify(true);
+			},
+		});
+		context.subscribe(
+			"interval.day",
+			function() {
+				prepareNotify(false);
+			}
+		);
+		ui.registerMenuItem(
+			"Soft Guest Cap Calculator",
+			function() {
+				openWindow();
+			}
+		);
+	},
 });
