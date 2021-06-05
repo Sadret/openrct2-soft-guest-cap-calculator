@@ -16,6 +16,8 @@ For detailed information, look at [this guide by Deurklink](https://forums.openr
 On Windows, this is usually at `C:Users\{User}\Documents\OpenRCT2\plugin`.
 3. Start OpenRCT2 and open a scenario.
 
+**Attention:** If you are on OpenRCT2 version `0.3.3` (as of June 2021: latest stable build), you need to use an earlier release, which you can get [here](https://github.com/Sadret/openrct2-soft-guest-cap-calculator/releases/tag/1.1.0).
+
 ## Usage
 
 Each in-game day, the plug-in queries the soft guest cap from the game. If it has changed since the last time, the user will be notified by an in-game message.\
