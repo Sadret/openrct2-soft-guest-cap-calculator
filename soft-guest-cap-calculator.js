@@ -24,7 +24,7 @@ var prepareNotify = function(forceNotify) {
 
 var notify = function(wording, sgc) {
 	var text = "soft guest cap " + wording + " " + sgc;
-	if (scenario.objective.type === "guestsBy")
+	if (scenario.objective.type === "guestsBy" || scenario.objective.type === "guestsAndRating")
 		text += " (" + Math.floor(100 * sgc / scenario.objective.guests) + "%)";
 	park.postMessage({
 		type: "blank",
@@ -92,7 +92,7 @@ var openWindow = function() {
 
 registerPlugin({
 	name: "soft guest cap calculator",
-	version: "2.0.0",
+	version: "2.0.1",
 	authors: ["Sadret", "Mar-Koeh"],
 	type: "local",
 	licence: "GPL-3.0",
