@@ -11,12 +11,10 @@ For detailed information, look at [this guide by Deurklink](https://forums.openr
 
 ## Installation
 
-1. Make sure that your OpenRCT2 version is up-to-date. You need at least version `0.3.4` (as of June 2021: not yet released) or a recent development version.
-2. Go to the [releases](https://github.com/Sadret/openrct2-soft-guest-cap-calculator/releases) page and download the `soft-guest-cap-calculator-2.0.0.js` file from the latest release. Save it in the `plugin` subfolder of your OpenRCT2 user directory.\
+1. Make sure that your OpenRCT2 version is up-to-date. You need at least version `0.3.4` (released July 2021).
+2. Go to the [releases](https://github.com/Sadret/openrct2-soft-guest-cap-calculator/releases) page and download the `openrct2-soft-guest-cap-calculator-2.0.2.js` file from the latest release. Save it in the `plugin` subfolder of your OpenRCT2 user directory.\
 On Windows, this is usually at `C:Users\{User}\Documents\OpenRCT2\plugin`.
 3. Start OpenRCT2 and open a scenario.
-
-**Attention:** If you are on OpenRCT2 version `0.3.3` (as of June 2021: latest stable build), you need to use an earlier release, which you can get [here](https://github.com/Sadret/openrct2-soft-guest-cap-calculator/releases/tag/1.1.0).
 
 ## Usage
 
@@ -47,12 +45,12 @@ If you find any bugs or if you have any ideas for improvements, you can open an 
 
 If you like this plug-in, please leave a star on GitHub.
 
-If you really want to support me, you can [buy me a coffee](https://www.BuyMeACoffee.com/SadretGaming).
+If you really want to support me, you can [buy me a coffee](https://ko-fi.com/sadret).
 
 ## Thanks to
 - @Mar-Koeh: Current guest cap as percentage of needed guests to meet scenario objective.
 
 ## Copyright and License
 
-Copyright (c) 2020-2021 Sadret\
+Copyright (c) 2020-2022 Sadret\
 The OpenRCT2 plug-in "Soft Guest Cap Calculator" is licensed under the GNU General Public License version 3.

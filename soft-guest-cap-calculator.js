@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2020-2021 Sadret
+ * Copyright (c) 2020-2022 Sadret
  *
  * The OpenRCT2 plug-in "Soft Guest Cap Calculator" is licensed
  * under the GNU General Public License version 3.
@@ -12,17 +12,17 @@ var notifyOnDecrease = context.sharedStorage.get("soft_guest_cap_calculator.noti
 
 var last = 0;
 
-var prepareNotify = function(forceNotify) {
+function prepareNotify(forceNotify) {
 	var sgc = park.suggestedGuestMaximum;
-	if (sgc > last && notifyOnIncrease)
+	if (sgc > last && (notifyOnIncrease || forceNotify))
 		return notify("increased to", sgc);
-	if (sgc < last && notifyOnDecrease)
+	if (sgc < last && (notifyOnDecrease || forceNotify))
 		return notify("decreased to", sgc);
-	if (sgc === last && forceNotify)
+	if (forceNotify)
 		return notify("is", sgc);
 }
 
-var notify = function(wording, sgc) {
+function notify(wording, sgc) {
 	var text = "soft guest cap " + wording + " " + sgc;
 	if (scenario.objective.type === "guestsBy" || scenario.objective.type === "guestsAndRating")
 		text += " (" + Math.floor(100 * sgc / scenario.objective.guests) + "%)";
@@ -34,10 +34,9 @@ var notify = function(wording, sgc) {
 }
 
 var handle = undefined;
-var openWindow = function() {
-	if (handle !== undefined)
-		return;
-	handle = ui.openWindow({
+
+function openWindow() {
+	handle |= ui.openWindow({
 		classification: "soft-guest-cap-calculator",
 		width: 128,
 		height: 92,
@@ -92,7 +91,7 @@ var openWindow = function() {
 
 registerPlugin({
 	name: "soft guest cap calculator",
-	version: "2.0.1",
+	version: "2.0.2",
 	authors: ["Sadret", "Mar-Koeh"],
 	type: "local",
 	licence: "GPL-3.0",
@@ -114,9 +113,7 @@ registerPlugin({
 		);
 		ui.registerMenuItem(
 			"Soft Guest Cap Calculator",
-			function() {
-				openWindow();
-			}
+			openWindow
 		);
 	},
 });
