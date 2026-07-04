@@ -96,6 +96,7 @@ registerPlugin({
 	type: "local",
 	licence: "GPL-3.0",
 	minApiVersion: 29,
+	targetApiVersion: 111,
 	main: function() {
 		ui.registerShortcut({
 			id: "sgc.notify",
