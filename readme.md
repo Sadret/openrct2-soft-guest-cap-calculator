@@ -12,7 +12,7 @@ For detailed information, look at [this guide by Deurklink](https://forums.openr
 ## Installation
 
 1. Make sure that your OpenRCT2 version is up-to-date. You need at least version `0.3.4` (released July 2021).
-2. Go to the [releases](https://github.com/Sadret/openrct2-soft-guest-cap-calculator/releases) page and download the `openrct2-soft-guest-cap-calculator-2.0.2.js` file from the latest release. Save it in the `plugin` subfolder of your OpenRCT2 user directory.\
+2. Go to the [releases](https://github.com/Sadret/openrct2-soft-guest-cap-calculator/releases) page and download the `openrct2-soft-guest-cap-calculator-2.0.3.js` file from the latest release. Save it in the `plugin` subfolder of your OpenRCT2 user directory.\
 On Windows, this is usually at `C:Users\{User}\Documents\OpenRCT2\plugin`.
 3. Start OpenRCT2 and open a scenario.
 
